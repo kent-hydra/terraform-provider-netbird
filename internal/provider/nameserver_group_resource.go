@@ -300,7 +300,7 @@ func (r *NameserverGroup) Read(ctx context.Context, req resource.ReadRequest, re
 
 	nameserverGroup, err := r.client.DNS.GetNameserverGroup(ctx, data.Id.ValueString())
 	if err != nil {
-		if strings.Contains(err.Error(), "not found") {
+		if strings.Contains(err.Error(), "not found") || strings.Contains(err.Error(), "error unmarshalling body") {
 			data.Id = types.StringNull()
 			resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 		} else {

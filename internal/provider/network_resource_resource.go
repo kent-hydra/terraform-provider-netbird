@@ -185,7 +185,7 @@ func (r *NetworkResource) Read(ctx context.Context, req resource.ReadRequest, re
 
 	networkResource, err := r.client.Networks.Resources(data.NetworkId.ValueString()).Get(ctx, data.Id.ValueString())
 	if err != nil {
-		if strings.Contains(err.Error(), "not found") {
+		if strings.Contains(err.Error(), "not found") || strings.Contains(err.Error(), "error unmarshalling body") {
 			data.Id = types.StringNull()
 			resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 		} else {
